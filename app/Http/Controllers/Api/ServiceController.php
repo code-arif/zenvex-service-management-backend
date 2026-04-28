@@ -106,4 +106,26 @@ class ServiceController extends Controller
             'message' => "Service deleted successfully!",
         ], 200);
     }
+
+    /**
+     * SHOW — GET /api/services/{id}
+     * Returns a single service by ID
+     */
+    public function show($id){
+        $service = Service::find($id);
+
+        if (!$service) {
+            return response()->json([
+                'success' => false,
+                'message' => "Service not found!",
+            ], 404);
+        }
+
+        // Return the service
+        return response()->json([
+            'success' => true,
+            'message' => "Service fetched successfully!",
+            'data' => $service,
+        ], 200);
+    }
 }
