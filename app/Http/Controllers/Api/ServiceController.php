@@ -15,7 +15,11 @@ class ServiceController extends Controller
     public function index()
     {
         $services = Service::latest('id')->get();
-        return response()->json($services);
+        return response()->json([
+            'success' => true,
+            'message' => "Service fetched successfully!",
+            'data' => $services,
+        ], 200);
     }
 
     /**
@@ -41,5 +45,40 @@ class ServiceController extends Controller
             'message' => "Service created successfully!",
             'data' => $service,
         ], 201);
+    }
+
+    /**
+     * UPDATE — PUT /api/services/{id}
+     * Validates and updates an existing service
+     */
+    public function update(Request $request, int $id)
+    {
+        // Find the service by its ID, or return 404 if not found
+        $service = Service::find($id);
+
+        if (!$service) {
+            return response()->json([
+                'success' => false,
+                'message' => "Service not found!",
+            ], 404);
+        }
+
+        // Validate the incoming data
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'category' => 'required|string|max:255',
+            'status' => 'required|in:active,inactive',
+        ]);
+
+        // Update the service with new data
+        $service->update($validated);
+
+        // Return the updated service
+        return response()->json([
+            'success' => true,
+            'message' => "Service updated successfully!",
+            'data' => $service,
+        ], 200);
     }
 }
