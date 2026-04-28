@@ -17,4 +17,29 @@ class ServiceController extends Controller
         $services = Service::latest('id')->get();
         return response()->json($services);
     }
+
+    /**
+     * STORE — POST /api/services
+     * Validates and saves a new service
+     */
+    public function store(Request $request)
+    {
+        // Validate the incoming request data
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'category' => 'required|string|max:255',
+            'status' => 'required|in:active,inactive',
+        ]);
+
+        // Create a new service record in the database
+        $service = Service::create($validated);
+
+        // Return the created service with 201 Created status
+        return response()->json([
+            'success' => true,
+            'message' => "Service created successfully!",
+            'data' => $service,
+        ], 201);
+    }
 }
