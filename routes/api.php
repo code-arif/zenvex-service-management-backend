@@ -22,4 +22,5 @@ Route::group(['prefix' => 'services'], function () {
     Route::get('/', [ServiceController::class, 'index']);
     Route::post('/store', [ServiceController::class, 'store']);
     Route::post('/update/{id}', [ServiceController::class, 'update']);
+    Route::delete('/destroy/{id}', [ServiceController::class, 'destroy']);
 });

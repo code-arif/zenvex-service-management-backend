@@ -81,4 +81,29 @@ class ServiceController extends Controller
             'data' => $service,
         ], 200);
     }
+
+     /**
+     * DESTROY — DELETE /api/services/{id}
+     * Deletes a service by ID
+     */
+    public function destroy($id)
+    {
+        $service = Service::find($id);
+
+        if (!$service) {
+            return response()->json([
+                'success' => false,
+                'message' => "Service not found!",
+            ], 404);
+        }
+
+        // Delete it
+        $service->delete();
+
+        // Return a success message
+        return response()->json([
+            'success' => true,
+            'message' => "Service deleted successfully!",
+        ], 200);
+    }
 }
