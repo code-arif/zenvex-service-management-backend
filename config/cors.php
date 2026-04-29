@@ -16,7 +16,7 @@ return [
      * Which origins (domains) can make requests
      * During development, we allow localhost:5173 (Vite default port)
      */
-    'allowed_origins' => ['http://localhost:5173'],
+    'allowed_origins' => ['https://service-app001.netlify.app'],
 
     'allowed_origins_patterns' => [],
 
